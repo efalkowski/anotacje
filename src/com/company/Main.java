@@ -1,40 +1,25 @@
 package com.company;
 
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
+import org.reflections.Reflections;
+
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException {
+        Reflections reflections = new Reflections();
 
-        Class malpa = Class.forName("com.company.Monkey");
+        Set<Class<? extends Animal>> subTypes = reflections.getSubTypesOf(Animal.class);
 
-        Class kot = Class.forName("com.company.Cat");
+        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(MyAnnotation.class);
 
-        Class pies = Class.forName("com.company.Dog");
-
-        Method refleks = null;
-        try {
-            refleks = malpa.getMethod("eat", null);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
         }
-        try {
-            refleks.invoke(malpa.newInstance(), null);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
+
+
 
     }
-}
+
 
 
 
