@@ -5,5 +5,5 @@ package com.company;
  */
 public interface Animal {
 
-    void eat();
+  public void eat();
 }

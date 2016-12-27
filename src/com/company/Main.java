@@ -2,33 +2,42 @@ package com.company;
 
 
 import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.FilterBuilder;
+
 
 import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException {
-        Reflections reflections = new Reflections("com.company.*");
 
-    //    Set<Class<? extends Animal>> subTypes = reflections.getSubTypesOf(Animal.class);
-        // this also results 0
-
+        if(args.length == 0){
+            System.out.println("Pierw podaj jeden z argumentów: pies, kot, małpa ");
+            System.exit(1);}
+        Reflections reflections = new Reflections("com");
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(MyAnnotation.class);
 
 
-        System.out.println(annotated.size());
+
+        for (Class cl : annotated) {
+            MyAnnotation annot = (MyAnnotation) cl.getAnnotation(MyAnnotation.class);
+
+            try {
+                Object instance = cl.newInstance();
+                if (instance instanceof Animal && annot.ananimal().equals(args[0])){
+
+                Animal animal = (Animal) instance;
+                animal.eat();}
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
 
 
         }
 
-
-
     }
+
+
+}
 
 
 
