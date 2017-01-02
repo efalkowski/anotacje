@@ -9,8 +9,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface MyAnnotation {
-
-    String ananimal() default "N/A";
-
-
+    String anAnimal() default "N/A";
 }
