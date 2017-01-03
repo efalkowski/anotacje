@@ -35,35 +35,37 @@ public class Main {
             }
         }
     }
-    
+
     private static Set<Class> getClassesInPackage(String packageName) {
         Set<Class> classes = new HashSet<>();
         String packageNameSlashed = packageName.replace(".", "/");
-        // Get a File object for the package
+        //najpierw pobierany jest adres zasobów
         URL directoryURL = Thread.currentThread().getContextClassLoader().getResource(packageNameSlashed);
 
         if (directoryURL == null) {
             System.out.println("Could not retrieve URL resource: " + packageNameSlashed);
             return classes;
         }
-
-        String directoryString = directoryURL.getFile();
+        //następnie z podanego adresu bierzemy ścieżkę
+        String directoryString = directoryURL.getPath();
 
         if (directoryString == null) {
             System.out.println("Could not find directory for URL resource: " + packageNameSlashed);
             return classes;
         }
-
+        //następnie tworzony jest obiekt typu "plik", katalog z wcześniej podaną ścieżką
         File directory = new File(directoryString);
 
         if (directory.exists()) {
-            // Get the list of the files contained in the package
+        //jeżeli katalog istnieje na podanej ścieżce
+        //to ten blok pobiera listę i iteruje
+        //kolejno wszystkie pliki, dodając do Set'a
+        //tylko te z końcówką .class
             String[] files = directory.list();
 
             for (String fileName : files){
-                // We are only interested in .class files
+
                 if (fileName.endsWith(".class")) {
-                    // Remove the .class extension
                     fileName = fileName.substring(0, fileName.length() - 6);
                     try {
                         classes.add(Class.forName(packageName + "." + fileName));
@@ -75,6 +77,7 @@ public class Main {
         } else {
             System.out.println(packageName + " does not appear to exist as a valid package on the file system.");
         }
+        //po przeiterowaniu zwracany jest gotowy set wszystkich klas w podanym pakiecie
         return classes;
     }
 }
